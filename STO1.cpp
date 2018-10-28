@@ -1,9 +1,12 @@
 #include <iostream>
+#include <vector>
+#include <assert.h>
 using namespace std;
 
 void setUp();
-void coutArrays();
+void coutArray(int**, int, int);
 int calculateCheapestPath(int);
+int calculateCost(int**, int, int, int);
 
 int t;
 int *n, *m;
@@ -12,7 +15,11 @@ int ***arrays;
 int main(int argc, char const *argv[])
 {
 	setUp();
-	coutArrays();
+	// for (int k = 0; k < t; ++k)
+	// {
+	// 	int **array = arrays[k];
+	// 	coutArray(array, n[k], m[k]);
+	// }
 	for (int k = 0; k < t; ++k)
 	{
 		int cheapest = calculateCheapestPath(k);
@@ -21,21 +28,17 @@ int main(int argc, char const *argv[])
 	return 0;
 }
 
-void coutArrays()
+void coutArray(int **array, int rows, int cols)
 {
-	for (int k = 0; k < t; ++k)
-	{
-		int **array = arrays[k];
-		for (int i = 0; i < n[k]; i++)
+		for (int i = 0; i < rows; i++)
 		{
-			for (int j = 0; j < m[k]; j++)
+			for (int j = 0; j < cols; j++)
 			{
 				cout << array[i][j] << '\t';
 			}
 			cout << endl;
 		}
 		cout << endl;
-	}
 }
 
 void setUp()
@@ -68,16 +71,33 @@ void setUp()
 int calculateCheapestPath(int k)
 {
 	int **array = arrays[k];
-	int costArray[n[k]][m[k]];
-	int rowPointer;
-	// for (int i = 0; i < n[k]; i++)
-	// {
-	// 	for (int j = 0; j < m[k]; j++)
-	// 	{
-	// 		cout << array[i][j] << '\t';
-	// 	}
-	// 	cout << endl;
-	// }
-	// cout << endl;
+	int **costArray = array;
+	cout << array[0][0] << '\t' << costArray[0][0] << endl;
+	costArray[0][0] = 42;
+	cout << array[0][0] << '\t' << costArray[0][0] << endl;
+
+	for (int j = 0; j < m[k]; j++)
+	{
+		for (int i = 0; i < n[k]; i++)
+		{
+			if(j==0) costArray[i][j] = array[i][j];
+			else costArray[i][j] = calculateCost(costArray, k, i, j);
+		}
+	}
+	return 0;
+}
+
+int calculateCost(int **costArray, int k, int i, int j)
+{
+	assert(j > 0);
+	int **array = arrays[k];
+	for (int a = i-1; a <= i+1; a++)
+	{
+		if(a<0 || a>=n[a]) continue;
+		// if(array[a][j-1])
+
+	}
+
+
 	return 0;
 }
