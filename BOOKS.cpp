@@ -1,22 +1,48 @@
-#include <iostream>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-int main()
-{
+int getAnswer(vector<int>& vec, int k, int n) {
+  int lo = 0, hi = 0;
+  for(int j = 0; j < n; j++) {
+    int i = vec[j];
+    hi += i;
+    lo = max(lo, i);
+  }
+  while (lo < hi) {
+    int mid = (lo + hi) / 2;
+    int parts = 0, partSum = 0;
+    bool isValid = true;
+    for(int j = 0; j < n; j++) {
+      int i = vec[j];
+      if(parts > k) {
+        isValid = false;
+        break;
+      }
+      if(partSum + i > mid) {
+        parts++;
+        partSum = i;
+      } else {
+        partSum += i;
+      }
+    }
+    if(!isValid) {
+      lo = mid + 1;
+    } else {
+      hi = mid;
+    }
+  }
+  return hi;
+}
+
+int main() {
   int n, k;
   cin >> n >> k;
-  int bookHeights[n];
-  for(int i = 0; i < n; i++)
-  {
-	cin >> bookHeights[i];
+  vector<int> bookHeights;
+  for(int i = 0; i < n; i++) {
+    int tmp; cin >> tmp;
+    bookHeights.push_back(tmp);
   }
-  int* maxElementAddress = max_element(bookHeights, bookHeights + n);
-  int maxElementIndex = distance(bookHeights, maxElementAddress);
-  int maxElement = *maxElementAddress;
-
-cout << maxElementIndex << " " <<  maxElement;
+  cout << getAnswer(bookHeights, k, n);
 
   return 0;
 }
