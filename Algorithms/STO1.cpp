@@ -71,7 +71,7 @@ void setUp()
 int calculateCheapestPath(int k)
 {
 	int **array = arrays[k];
-	int **costArray = array;
+	int **costArray = new int*[n[k]];
 	cout << array[0][0] << '\t' << costArray[0][0] << endl;
 	costArray[0][0] = 42;
 	cout << array[0][0] << '\t' << costArray[0][0] << endl;
