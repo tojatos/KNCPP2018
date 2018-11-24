@@ -11,17 +11,36 @@ struct LegalAction {
 	string dir1;
 	string dir2;
 };
-struct Coordinate{
+struct Coordinate {
 	int x;
 	int y;
 };
+class Board {
+private:
+	int size;
+	vector<int> boardContents;
+public:
+	Board(vector<int> b, int s) : size(s), boardContents(b) { }
+	int getAt(int x, int y) {
+		return boardContents[x*size + y];
+	}
+	void setAt(int x, int y, int value) {
+		boardContents[x*size + y] = value;
+	}
+	void cerrContents() {
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
+				cerr << boardContents[i*size + j] << ' ';
+			}
+			cerr << endl;
+		}
+	}
+};
 
-// class GameState {
-// public:
-// 	vector<int> board;
-// };
 
-vector<int> getBoard(int size) {
+vector<int> getBoardContents(int size) {
 	vector<int> board;
 	for (int i = 0; i < size; i++) {
 		string row;
@@ -57,16 +76,6 @@ vector<LegalAction> getLegalActions(int legalActionsNum){
 	}
 	return legalActions;
 }
-void cerrBoard(vector<int> board, int size) {
-	for (int i = 0; i < size; i++)
-	{
-		for (int j = 0; j < size; j++)
-		{
-			cerr << board[i*size + j] << ' ';
-		}
-		cerr << endl;
-	}
-}
 int main()
 {
 	int size; cin >> size; cin.ignore();
@@ -74,7 +83,9 @@ int main()
 
 	// game loop
 	while (1) {
-		vector<int> board = getBoard(size);
+		vector<int> boardContents = getBoardContents(size);
+		Board board{boardContents, size};
+		// board.cerrContents();
 		vector<Coordinate> allyCoordinates = getCoordinates(unitsPerPlayer);
 		vector<Coordinate> enemyCoordinates = getCoordinates(unitsPerPlayer);
 		int legalActionsNum; cin >> legalActionsNum; cin.ignore();
