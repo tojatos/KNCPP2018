@@ -1,28 +1,28 @@
 #include<bits/stdc++.h>
 using namespace std;
-struct Money {
-	int moneyLeft;
-	vector<int> nom;
-};
 
 int main(int argc, char const *argv[])
 {
 	int n; cin >> n;
-	int nom[n]; for(int i = 0; i<n; ++i) cin >> nom[i];
+	int coin[n]; for(int i = 0; i<n; ++i) cin >> coin[i];
 	int v; cin >> v;
 
-	Money sets[n];
-	for (int i = 0; i < n; ++i) {
-		sets[i].moneyLeft = v;
-		for (int j = 0; j < n; ++j) {
-			sets[i].nom.push_back(nom[j]);
+	int ways[v];
+	memset(ways, 0, v * sizeof(int)); //themis compiler sucks
+	for (int j = 0; j < n; ++j) {
+		for (int i = v - 1; i >= 0; --i) {
+			int x = i + 1;
+			if(coin[j] == x) ways[i] = 1;
+			int g = i - coin[j];
+			if(g >= 0) {
+				if(ways[g] != 0 && (ways[i] == 0 || ways[g] + 1 < ways[i])) ways[i] = ways[g] + 1;
+			}
 		}
+		// for (int i = 0; i < v; ++i) { cerr << ways[i] << ' '; }
+		// cerr << endl;
 	}
 
-	for (int i = 0; i < n; ++i) {
-		for(int j = 0; j < n; ++j) cerr << sets[i].nom[j] << ' ';
-		cerr << endl;
-	}
-
+	int ans = ways[v-1] == 0 ? -1 : ways[v-1];
+	cout << ans;
 	return 0;
 }
