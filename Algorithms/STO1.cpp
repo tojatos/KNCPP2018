@@ -1,38 +1,39 @@
-#include <iostream>
-#include <vector>
-#include <assert.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-class Matrix {
-private:
-	int sizeX;
-	int sizeY;
-	vector<int> contents;
-public:
-	Matrix(int x, int y) : sizeX(x), sizeY(y) {
-		contents.reserve(sizeX * sizeY);
-	 }
-	int get(int x, int y) {
-		return contents[x*sizeX + y];
-	}
-	void set(int x, int y, int value) {
-		contents[x*sizeX + y] = value;
-	}
-	void cerrContents() {
-		for (int i = 0; i < sizeX; i++)
-		{
-			for (int j = 0; j < sizeY; j++)
-			{
-				cerr << contents[i*sizeX + j] << ' ';
-			}
-			cerr << endl;
-		}
-	}
-};
-
-int main(int argc, char const *argv[])
+int min(int a, int b) { return a < b ? a : b; }
+int main()
 {
-	Matrix m{5, 7};
-	m.cerrContents();
+	int dataSets; cin >> dataSets;
+	while(dataSets--) {
+		int n, m; cin >> n >> m;
+		int arr[n][m];
+		int ans[n][m];
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < m; ++j) {
+				cin >> arr[i][j];
+			}
+		}
+		for (int j = m - 1; j >= 0; --j) {
+			for (int i = 0; i < n; ++i) {
+				if(j==m - 1) ans[i][j] = arr[i][j];
+				else {
+					int mini = INT_MAX;
+
+					if(i > 0) mini = min(mini, ans[i-1][j+1]);
+					mini = min(mini, ans[i][j+1]);
+					if(i < n - 1) mini = min(mini, ans[i+1][j+1]);
+
+					ans[i][j] = arr[i][j] + mini;
+				}
+			}
+		}
+
+		int mini = INT_MAX;
+		for (int i = 0; i < n; ++i) {
+		     mini = min(mini, ans[i][0]);
+		}
+		cout << mini <<  endl;
+	}
 	return 0;
 }
