@@ -2,8 +2,10 @@
 using namespace std;
 
 int min(int a, int b) { return a < b ? a : b; }
+int min(int a, int b, int c, int d) { return a < b ? a : b; }
 int main()
 {
+	ios::sync_with_stdio(false);
 	int n, m; cin >> n >> m;
 	int arr[n][m];
 	int ans[n][m];
